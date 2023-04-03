@@ -4,8 +4,8 @@
     "num_features": 784, 
     "training_steps": 3000,
     "batch_size": 256, 
-    "n_layers": 3,
-    "hiddens": [128, 256], 
-    "optimizer": "adam"
+    "n_layers": 5,
+    "hiddens": [128, 256, 512, 256], 
+    "optimizer": "rmsprop"
 
 }
