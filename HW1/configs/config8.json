@@ -4,8 +4,7 @@
     "num_features": 784, 
     "training_steps": 2000,
     "batch_size": 256, 
-    "n_layers": 3,
-    "hiddens": [128, 256], 
+    "n_layers": 8,
+    "hiddens": [128, 256, 512, 256, 256, 128, 128], 
     "optimizer": "adam"
-
 }

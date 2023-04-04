@@ -45,6 +45,8 @@ class MLP():
             self.optimizer = tf.keras.optimizers.SGD(self.learning_rate)
         elif optim == 'rmsprop':
             self.optimizer = tf.keras.optimizers.RMSprop(self.learning_rate)
+        elif optim == 'adagrad':
+            self.optimizer = tf.keras.optimizers.Adagrad(self.learning_rate)
             
         self.name = name + '-' + datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
         self.train_log_dir = 'logs/train/' + self.name
