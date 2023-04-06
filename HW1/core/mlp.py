@@ -1,6 +1,5 @@
 import tensorflow  as tf
 import numpy as np
-import datetime
 
 class NeuralNet(tf.keras.Model):
     def __init__(self, num_layers, hiddens, num_classes):
@@ -48,7 +47,7 @@ class MLP():
         elif optim == 'adagrad':
             self.optimizer = tf.keras.optimizers.Adagrad(self.learning_rate)
             
-        self.name = name + '-' + datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+        self.name = name + '-' + 'n_layers:' + str(self.n_layers) + ',optim:' + optim + ',hiddens:' + str(self.hiddens)
         self.train_log_dir = 'logs/train/' + self.name
         self.test_log_dir = 'logs/test/' + self.name 
         self.train_summary_writer = tf.summary.create_file_writer(self.train_log_dir)
