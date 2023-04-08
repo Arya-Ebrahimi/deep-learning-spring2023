@@ -2,33 +2,8 @@ import tensorflow  as tf
 import numpy as np
 
 
-class NeuralNet(tf.keras.Model):
-    def __init__(self, num_layers, hiddens, num_classes):
-        super(NeuralNet, self).__init__()
-        
-        self.num_layers = num_layers
-        self.hiddens = hiddens
-        self.num_classes = num_classes
-        
-        self.fc = []
-        for i in range(self.num_layers-1):
-            self.fc.append(tf.keras.layers.Dense(self.hiddens[i], activation=tf.nn.relu, kernel_initializer=tf.keras.initializers.RandomUniform()))
-        self.out = tf.keras.layers.Dense(self.num_classes, kernel_initializer=tf.keras.initializers.RandomUniform())
-        
-        
-    def call(self, x, is_training=False):
-        for i in range(self.num_layers-1):
-            x = self.fc[i](x)
-        x = self.out(x)
-        
-        if not is_training:
-            x = tf.nn.softmax(x)
-        
-        return x
-
 class MLP():
-    def __init__(self, config, name, zero_to_four=False):
-        self.zero_to_four = zero_to_four
+    def __init__(self, config, name):
         self.learning_rate = config['learning_rate']
         self.num_classes = config['num_classes']
         self.num_features = config['num_features']
@@ -54,27 +29,24 @@ class MLP():
         self.test_log_dir = 'logs/test/' + self.name 
         self.train_summary_writer = tf.summary.create_file_writer(self.train_log_dir)
         self.test_summary_writer = tf.summary.create_file_writer(self.test_log_dir)
+        
+    def create_model(self):
+        
 
     def _load_data(self):
         (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data(path='/home/arya/Desktop/DL/HW1/dataset/mnist.npz')
         
-        if (self.zero_to_four):
-            train_mask = np.isin(y_train, [0, 1, 2, 3, 4])
-            test_mask = np.isin(y_test, [0, 1, 2, 3, 4])
-            five_to_nine = np.isin(y_test, [5, 6, 7, 8, 9])
+        train_mask = np.isin(y_train, [0, 1, 2, 3, 4])
+        test_mask = np.isin(y_test, [0, 1, 2, 3, 4])
 
-            five_to_nine_x = x_test[five_to_nine]
-            self.five_to_nine_y = y_test[five_to_nine]
-            five_to_nine_x = np.array(five_to_nine_x, np.float32)
-            five_to_nine_x = five_to_nine_x.reshape([-1, self.num_features])
-            self.five_to_nine_x = five_to_nine_x / 255.
-            
 
-            x_train = x_train[train_mask]
-            y_train = y_train[train_mask]
+        x_train = x_train[train_mask]
+        
+        y_train = tf.concat(values=[y_train[train_mask], 1])
 
-            x_test = x_test[test_mask]
-            y_test = y_test[test_mask]
+        x_test = x_test[test_mask]
+        y_test = tf.concat(values=[y_test[test_mask], 1])
+
             
         
         x_train, x_test = np.array(x_train, np.float32), np.array(x_test, np.float32)
