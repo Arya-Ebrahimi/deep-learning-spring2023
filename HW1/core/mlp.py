@@ -56,7 +56,7 @@ class MLP():
         self.test_summary_writer = tf.summary.create_file_writer(self.test_log_dir)
 
     def _load_data(self):
-        (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data(path='/home/arya/Desktop/DL/HW1/dataset/mnist.npz')
+        (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data(path='/home/arya/study/DL/HW1/dataset/mnist.npz')
         
         if (self.zero_to_four):
             train_mask = np.isin(y_train, [0, 1, 2, 3, 4])
